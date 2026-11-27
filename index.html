@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="일곱 번의 선택으로 보내는 캠퍼스의 일주일. 학업, 체력, 행복의 균형을 찾아보세요.">
+  <title>대학생으로 일주일 살아남기</title>
+  <style>
+    :root{--paper:#f7f4eb;--card:#fffef9;--ink:#293d34;--muted:#626d60;--line:#dedfd1;--green:#345c45;--study:#667cac;--health:#5c896b;--happy:#b47b40}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.65 system-ui,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+    button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+    button:focus-visible{outline:3px solid #b56424;outline-offset:5px}
+    button:disabled{cursor:default} h1,h2,h3,p{margin:0} h1,h2{line-height:1.35;letter-spacing:-.06em}
+    .shell{width:min(100% - 40px,640px);margin:0 auto;padding:38px 0 24px}
+    .masthead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+    .brand{font-weight:800;color:var(--green)} .edition{letter-spacing:0}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 36px #344d3707;overflow:hidden}
+    .intro{padding:38px 34px 30px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--green);margin-bottom:15px}
+    h1{font-size:clamp(32px,7.5vw,45px);font-weight:850}.subtitle{color:var(--muted);margin-top:18px;font-size:15px}
+    .notebook{margin:28px 0;background:#edf0e4;border-radius:14px;padding:22px 20px;position:relative;border:1px solid #dce2cf}
+    .notebook:before{content:"";display:block;width:36px;height:6px;border-radius:2px;background:#a5b595;margin-bottom:15px}
+    .notebook p{font-size:15px}.notebook strong{color:var(--green)}
+    .week{display:flex;gap:7px;margin-top:19px}.week span{display:grid;place-items:center;flex:1;aspect-ratio:1;border:1px solid #ccd4bf;border-radius:50%;font-size:12px;color:var(--green)}
+    .week span:first-child{background:var(--green);color:white;border-color:var(--green)}
+    .rules{padding:0;margin:0 0 25px;list-style:none;font-size:14px;color:var(--muted)}.rules li{padding:7px 0;border-bottom:1px solid #eeeee4}.rules b{color:var(--ink)}
+    .primary{display:block;width:100%;border:1px solid var(--green);border-radius:12px;background:var(--green);color:#fffef8;padding:15px 20px;font-weight:750;min-height:54px}
+    .primary:hover{background:#274b36}.button-row{display:flex;align-items:center;justify-content:space-between;gap:16px}.arrow{font-size:21px;line-height:1}
+    .small-note{text-align:center;color:var(--muted);font-size:12px;margin-top:13px}
+    .status{padding:24px 28px 25px;border-bottom:1px solid var(--line);background:#fafbf3}.day-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px;font-size:13px}.day-top strong{font-size:16px}.day-count{color:var(--muted)}
+    .days{display:flex;justify-content:space-between;gap:6px;margin-bottom:23px}.day{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted);font-size:12px;border:1px solid transparent}.day.done{background:#e3e9da;color:var(--green)}.day.current{background:var(--green);color:white}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.stat-label{display:flex;justify-content:space-between;gap:5px;font-size:13px;margin-bottom:8px}.stat-label strong{font-size:17px;line-height:1.25;font-variant-numeric:tabular-nums}
+    .bar{height:7px;border-radius:10px;background:#e6e7dc;overflow:hidden}.fill{height:100%;width:50%;border-radius:inherit;background:var(--stat)}
+    .study{--stat:var(--study)}.health{--stat:var(--health)}.happy{--stat:var(--happy)}
+    .content{padding:29px 28px 28px}.section-tag{font-size:12px;color:var(--green);font-weight:750;margin-bottom:9px}h2{font-size:28px} .hint{color:var(--muted);font-size:14px;margin:12px 0 23px}
+    .choices{display:grid;gap:12px}.choice{width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;background:transparent;color:var(--ink);padding:18px;min-height:110px}.choice:hover:not(:disabled){background:#f0f3e7;border-color:#809578}.choice:active:not(:disabled){background:#e4ebda}
+    .choice-title{display:flex;align-items:center;gap:12px;font-weight:750;font-size:17px}.letter{display:grid;place-items:center;width:27px;height:27px;flex:none;border:1px solid #d5dbcc;border-radius:7px;font-size:12px;color:var(--green)}
+    .effects{display:flex;flex-wrap:wrap;gap:6px 12px;margin:12px 0 0 39px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+    .effect{white-space:nowrap}.result-box{background:#f4f4eb;border:1px solid #e4e5d9;border-radius:14px;padding:19px;margin:22px 0}.result-box h3{font-size:16px;font-weight:750;line-height:1.6}.result-label{font-size:12px;color:var(--muted);margin-bottom:7px}
+    .changes{margin:15px 0 0;display:grid;gap:7px}.change{display:flex;justify-content:space-between;gap:8px;font-size:14px}.change dt,.change dd{margin:0}.change dd{font-variant-numeric:tabular-nums}.delta{color:var(--muted);font-size:12px;margin-left:6px}.result-message{color:var(--muted);font-size:14px;margin-top:14px}
+    .ending-mark{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:#e5ebd9;font-size:25px;margin-bottom:18px;color:var(--green)}
+    .ending-title{font-size:33px}.ending-copy{margin-top:13px;color:var(--muted);font-size:15px}.ending-rule{font-size:12px;color:var(--muted);margin:0 0 22px}
+    .footer{display:flex;justify-content:space-between;gap:12px;margin-top:19px;color:var(--muted);font-size:11px}.footer span:last-child{text-align:right}
+    [tabindex="-1"]:focus{outline:none}
+    @media(max-width:440px){.shell{width:calc(100% - 32px);padding-top:24px}.masthead{margin-bottom:19px}.intro{padding:29px 23px 25px}.status{padding:21px 22px}.content{padding:25px 22px}.stats{gap:14px}h2{font-size:25px}.choice{padding:16px 14px}.choice-title{font-size:16px;gap:10px}.effects{margin-left:0;gap:5px 10px}.notebook{padding:20px 17px;margin:24px 0}.day{width:28px;height:28px}.ending-title{font-size:30px}}
+    @media(prefers-reduced-motion:no-preference){button{transition:background .15s,border-color .15s}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead"><span class="brand">CAMPUS / 7 DAYS</span><span class="edition">이번 주도, 나답게.</span></header>
+    <div class="card">
+      <section id="start" class="intro" aria-labelledby="start-title">
+        <p class="eyebrow">일곱 번의 선택, 하나의 일주일</p>
+        <h1 id="start-title" tabindex="-1">대학생으로<br>일주일 살아남기</h1>
+        <p class="subtitle">수업도, 잠도, 친구도 챙기고 싶은 당신.<br>이번 주에는 어떤 선택을 하게 될까요?</p>
+        <div class="notebook" aria-label="월요일부터 일요일까지 7일">
+          <p>완벽한 하루보다<br><strong>나만의 균형을 찾는 일주일.</strong></p>
+          <div class="week" aria-hidden="true"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+        </div>
+        <ul class="rules">
+          <li><b>하루에 한 번,</b> 두 가지 중 하나를 골라요.</li>
+          <li><b>학업 · 체력 · 행복</b>은 모두 50에서 시작해요.</li>
+          <li>수치는 0~100, <b>하나라도 0이면 즉시 종료!</b></li>
+          <li>7일을 버티고 모두 40 이상이면 <b>균형 달인.</b></li>
+          <li>버텼지만 40 미만이 있으면 <b>아슬아슬 생존.</b></li>
+        </ul>
+        <button id="start-button" type="button" class="primary button-row"><span>시작하기</span><span class="arrow" aria-hidden="true">→</span></button>
+        <p class="small-note">진행은 저장되지 않아요. 가볍게 시작해 보세요.</p>
+      </section>
+      <div id="game" hidden>
+        <section class="status" aria-label="이번 주 현황">
+          <div class="day-top"><strong id="day-name">월요일</strong><span id="day-count" class="day-count">1 / 7일</span></div>
+          <div id="days" class="days" aria-label="요일 진행 상황"></div>
+          <div class="stats">
+            <div class="stat study"><div class="stat-label"><span>학업</span><strong id="study-value">50</strong></div><div id="study-bar" class="bar" role="progressbar" aria-label="학업" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><div class="fill"></div></div></div>
+            <div class="stat health"><div class="stat-label"><span>체력</span><strong id="health-value">50</strong></div><div id="health-bar" class="bar" role="progressbar" aria-label="체력" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><div class="fill"></div></div></div>
+            <div class="stat happy"><div class="stat-label"><span>행복</span><strong id="happy-value">50</strong></div><div id="happy-bar" class="bar" role="progressbar" aria-label="행복" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><div class="fill"></div></div></div>
+          </div>
+        </section>
+        <section id="choice-screen" class="content" aria-labelledby="event-title" hidden>
+          <p class="section-tag">오늘의 갈림길</p><h2 id="event-title" tabindex="-1"></h2>
+          <p class="hint">오늘의 나는, 이쪽으로.<br>선택하면 아래 수치가 바로 반영돼요.</p>
+          <div class="choices"><button id="choice-a" class="choice" type="button"></button><button id="choice-b" class="choice" type="button"></button></div>
+        </section>
+        <section id="result-screen" class="content" aria-labelledby="result-title" hidden>
+          <p class="section-tag">오늘의 선택 완료</p><h2 id="result-title" tabindex="-1">오늘도 한 걸음.</h2>
+          <div id="day-result" class="result-box"></div>
+          <button id="next-button" class="primary button-row" type="button"><span>다음 날</span><span class="arrow" aria-hidden="true">→</span></button>
+        </section>
+        <section id="ending-screen" class="content" aria-labelledby="ending-title" hidden>
+          <div id="ending-mark" class="ending-mark" aria-hidden="true"></div>
+          <p id="ending-tag" class="section-tag"></p><h2 id="ending-title" class="ending-title" tabindex="-1"></h2><p id="ending-copy" class="ending-copy"></p>
+          <div id="last-result" class="result-box"></div><p id="ending-rule" class="ending-rule"></p>
+          <button id="restart-button" class="primary button-row" type="button"><span>다시 시작</span><span class="arrow" aria-hidden="true">↻</span></button>
+        </section>
+      </div>
+    </div>
+    <footer class="footer"><span>대학생의 작은 생존 기록</span><span>정답은 없어도, 선택은 있으니까.</span></footer>
+    <noscript><p>게임을 하려면 브라우저에서 JavaScript를 켜 주세요.</p></noscript>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const csv = `요일,사건,선택A,학업A,체력A,행복A,선택B,학업B,체력B,행복B
+월요일,1교시와 늦잠,수업에 간다,15,-10,-5,늦잠을 잔다,-10,15,5
+화요일,팀플 초안과 친구 약속,팀플 초안을 쓴다,15,-10,-5,친구를 만난다,-10,-5,15
+수요일,동아리와 도서관,동아리에 간다,-5,-10,20,도서관에 간다,15,-5,-10
+목요일,마감과 수면,밤새 마무리한다,20,-25,-10,잠을 충분히 잔다,-10,20,5
+금요일,나들이와 예습,나들이를 간다,-10,-5,20,다음 주 예습을 한다,15,-10,-5
+토요일,운동과 몰아 공부,가볍게 운동한다,0,20,10,몰아서 공부한다,20,-15,-5
+일요일,주간 계획과 드라마,다음 주를 계획한다,10,-5,5,드라마를 본다,-5,5,15`;
+      const events = csv.split('\n').slice(1).map(line => {
+        const c = line.split(',');
+        return { day: c[0], title: c[1], choices: [
+          { text: c[2], effect: c.slice(3, 6).map(Number) },
+          { text: c[6], effect: c.slice(7, 10).map(Number) }
+        ] };
+      });
+      const labels = ['학업', '체력', '행복'];
+      const keys = ['study', 'health', 'happy'];
+      const $ = id => document.getElementById(id);
+      const signed = n => n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '0';
+      let phase = 'start';
+      let day = 0;
+      let stats = [50, 50, 50];
+
+      function updateStatus() {
+        $('day-name').textContent = events[day].day;
+        $('day-count').textContent = `${day + 1} / 7일`;
+        $('days').replaceChildren(...events.map((event, index) => {
+          const item = document.createElement('span');
+          item.className = 'day' + (index === day ? ' current' : index < day ? ' done' : '');
+          item.textContent = event.day[0];
+          item.setAttribute('aria-label', event.day + (index === day ? ', 현재' : index < day ? ', 완료' : ', 예정'));
+          if (index === day) item.setAttribute('aria-current', 'step');
+          return item;
+        }));
+        keys.forEach((key, i) => {
+          $(key + '-value').textContent = stats[i];
+          const bar = $(key + '-bar');
+          bar.setAttribute('aria-valuenow', stats[i]);
+          bar.firstElementChild.style.width = stats[i] + '%';
+        });
+      }
+
+      function showScreen(id, heading) {
+        ['choice-screen', 'result-screen', 'ending-screen'].forEach(screen => {
+          $(screen).hidden = screen !== id;
+        });
+        $(heading).focus();
+      }
+
+      function showChoice() {
+        phase = 'choice';
+        updateStatus();
+        $('event-title').textContent = events[day].title;
+        events[day].choices.forEach((choice, index) => {
+          const button = $(index === 0 ? 'choice-a' : 'choice-b');
+          // Only fixed, embedded CSV text is rendered here; no external input is accepted.
+          button.innerHTML = `<span class="choice-title"><span class="letter" aria-hidden="true">${index === 0 ? 'A' : 'B'}</span><span>${choice.text}</span></span><span class="effects">${choice.effect.map((n, i) => `<span class="effect">${labels[i]} ${signed(n)}</span>`).join('')}</span>`;
+          button.disabled = false;
+        });
+        showScreen('choice-screen', 'event-title');
+      }
+
+      function resultMarkup(choice, before) {
+        return `<p class="result-label">${events[day].day}의 선택</p><h3>${choice.text}</h3><dl class="changes">${labels.map((label, i) => `<div class="change"><dt>${label}</dt><dd>${before[i]} → <strong>${stats[i]}</strong><span class="delta">(${signed(stats[i] - before[i])})</span></dd></div>`).join('')}</dl>${choice.effect.some((n, i) => before[i] + n !== stats[i]) ? '<p class="result-message">능력치는 0~100 범위로 반영했어요.</p>' : ''}`;
+      }
+
+      function choose(index) {
+        if (phase !== 'choice') return;
+        // Lock before applying any effect, including rapid or repeated input.
+        phase = 'result';
+        $('choice-a').disabled = true;
+        $('choice-b').disabled = true;
+        const choice = events[day].choices[index];
+        const before = [...stats];
+        stats = stats.map((value, i) => Math.max(0, Math.min(100, value + choice.effect[i])));
+        updateStatus();
+        const result = resultMarkup(choice, before);
+        if (stats.some(value => value === 0)) {
+          endGame('rest', result);
+        } else if (day === events.length - 1) {
+          endGame(stats.every(value => value >= 40) ? 'balanced' : 'survived', result);
+        } else {
+          $('day-result').innerHTML = result + '<p class="result-message">오늘의 선택이 반영됐어요. 준비되면 다음 날로 가 볼까요?</p>';
+          showScreen('result-screen', 'result-title');
+        }
+      }
+
+      function endGame(kind, result) {
+        phase = 'ending';
+        const endings = {
+          rest: { mark: '↺', tag: `${day + 1}일째, 잠깐 쉬어 가기`, title: '재충전 필요', copy: '열심히 달려온 나에게, 이제는 쉼표를. 잠깐 쉬고 다시 시작해도 괜찮아요.', rule: '능력치 중 하나가 0이 되어 이번 주를 마쳤어요.' },
+          balanced: { mark: '✦', tag: '일주일 완주', title: '균형 달인', copy: '할 일도, 나를 돌보는 일도 놓치지 않았네요. 나만의 속도로 멋진 한 주를 보냈어요.', rule: '7일 생존 · 학업, 체력, 행복 모두 40 이상' },
+          survived: { mark: '✓', tag: '일주일 완주', title: '아슬아슬 생존', copy: '조금은 벅찼어도, 일주일을 끝까지 보냈어요. 다음 주에는 나를 조금 더 챙겨 볼까요?', rule: '7일 생존 · 0인 능력치 없이, 하나 이상이 40 미만' }
+        };
+        const ending = endings[kind];
+        ['mark', 'tag', 'title', 'copy', 'rule'].forEach(key => { $('ending-' + key).textContent = ending[key]; });
+        $('last-result').innerHTML = result;
+        showScreen('ending-screen', 'ending-title');
+      }
+
+      $('start-button').addEventListener('click', () => {
+        if (phase !== 'start') return;
+        $('start').hidden = true;
+        $('game').hidden = false;
+        showChoice();
+      });
+      $('choice-a').addEventListener('click', () => choose(0));
+      $('choice-b').addEventListener('click', () => choose(1));
+      $('next-button').addEventListener('click', () => {
+        if (phase !== 'result' || day >= events.length - 1) return;
+        day += 1;
+        showChoice();
+      });
+      $('restart-button').addEventListener('click', () => {
+        if (phase !== 'ending') return;
+        phase = 'start';
+        day = 0;
+        stats = [50, 50, 50];
+        updateStatus();
+        ['choice-screen', 'result-screen', 'ending-screen'].forEach(id => { $(id).hidden = true; });
+        $('day-result').replaceChildren();
+        $('last-result').replaceChildren();
+        $('game').hidden = true;
+        $('start').hidden = false;
+        $('start-title').focus();
+      });
+    })();
+  </script>
+</body>
+</html>
